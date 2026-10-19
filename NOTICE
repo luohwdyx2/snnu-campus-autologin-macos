@@ -1,0 +1,40 @@
+SNNU 校园网自动登录（macOS 版）
+Copyright (c) 2026 luohwdyx2
+Licensed under the MIT License. See LICENSE.
+
+--------------------------------------------------------------------------
+本项目包含衍生自下列开源软件的代码（MIT License）：
+
+  SNNU-campus-autologin（Windows 版）
+  https://github.com/mzh2077/SNNU-campus-autologin
+  Copyright (c) 2026 校园网自动登录工具贡献者
+
+衍生范围：
+  - snnu_autologin/portal.py   ← 上游 portal_client.py（门户请求、状态判定、
+                                  错误分类、账号一致性核验的整体结构）
+  - snnu_autologin/config.py   ← 上游 config.py（端点、字段名、运营商取值、
+                                  超时参数、状态关键词表及默认值）
+
+具体包括：状态码常量与提示文案、online_markers / error_markers 关键词表、
+状态页解析正则、账号一致性核验逻辑、浏览器 UA 伪装、备用端点字段定义。
+
+--------------------------------------------------------------------------
+本项目新增或修正的部分：
+
+  - macOS 平台集成：keychain.py（钥匙串）、launchd.py（LaunchAgent 自启与
+    网络变化触发）、cli.py（子命令与失败退避）、安装/卸载脚本。
+  - 协议修正（依据在陕西师范大学校园网上的实测）：
+      1. 登录提交端点由 login.jsp 改为表单真实 action「login」；
+      2. 增加 JSESSIONID 会话保持；
+      3. account 只提交纯学号，运营商改由 yys 单独提交；
+      4. 响应解码改为「先严格 UTF-8，失败再 GB18030」，新增 PROXY_FAILED 状态。
+
+--------------------------------------------------------------------------
+第三方名称说明：
+
+  「陕西师范大学」「SNNU」「snnuportal」「深澜」等名称仅用于说明本工具
+  所适配的校园网认证系统。相关名称与商标归各自权利人所有，本项目与
+  上述机构及厂商无隶属、合作或授权关系。
+
+本项目依赖 Python 标准库（PSF License）与 macOS 自带命令，
+不分发也不修改这些组件，故不在本 NOTICE 中重复声明。

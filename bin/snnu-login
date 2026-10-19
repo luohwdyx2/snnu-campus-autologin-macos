@@ -1,0 +1,17 @@
+#!/bin/sh
+# snnu-login 命令行包装：定位安装目录并调用 Python
+set -e
+SELF="$0"
+while [ -L "$SELF" ]; do
+  LINK=$(readlink "$SELF")
+  case "$LINK" in
+    /*) SELF="$LINK" ;;
+    *) SELF="$(dirname "$SELF")/$LINK" ;;
+  esac
+done
+APP_DIR=$(cd "$(dirname "$SELF")/.." && pwd)
+
+PY=/usr/bin/python3
+[ -x "$PY" ] || PY=$(command -v python3)
+
+exec "$PY" "$APP_DIR/run.py" "$@"
